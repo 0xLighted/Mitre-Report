@@ -1,0 +1,78 @@
+{
+  "filters": [
+    {
+      "range": {
+        "rule.level": {
+          "gte": 3,
+          "lt": null
+        }
+      }
+    },
+    {
+      "bool": {
+        "minimum_should_match": 1,
+        "should": [
+          { "match_phrase": { "agent.id": "188" } },
+          { "match_phrase": { "agent.id": "189" } },
+          { "match_phrase": { "agent.id": "190" } },
+          { "match_phrase": { "agent.id": "191" } },
+          { "match_phrase": { "agent.id": "192" } },
+          { "match_phrase": { "agent.id": "193" } },
+          { "match_phrase": { "agent.id": "194" } },
+          { "match_phrase": { "agent.id": "195" } },
+          { "match_phrase": { "agent.id": "196" } },
+          { "match_phrase": { "agent.id": "197" } },
+          { "match_phrase": { "agent.id": "198" } },
+          { "match_phrase": { "agent.id": "200" } },
+          { "match_phrase": { "agent.id": "201" } }
+        ]
+      }
+    }
+  ],
+  "payload": {
+    "params": {
+      "index": "wazuh-alerts-*",
+      "body": {
+        "sort": [
+          { "timestamp": { "order": "desc", "unmapped_type": "boolean" } }
+        ],
+        "size": 10000, 
+        "from": 0,
+        "stored_fields": ["*"],
+        "script_fields": {},
+        "docvalue_fields": [
+          { "field": "data.aws.createdAt", "format": "date_time" },
+          { "field": "data.aws.end", "format": "date_time" },
+          {
+            "field": "data.aws.resource.instanceDetails.launchTime",
+            "format": "date_time"
+          },
+          { "field": "data.aws.service.eventFirstSeen", "format": "date_time" },
+          { "field": "data.aws.service.eventLastSeen", "format": "date_time" },
+          { "field": "data.aws.start", "format": "date_time" },
+          { "field": "data.aws.updatedAt", "format": "date_time" },
+          { "field": "data.timestamp", "format": "date_time" },
+          { "field": "data.vulnerability.published", "format": "date_time" },
+          { "field": "data.vulnerability.updated", "format": "date_time" },
+          { "field": "syscheck.mtime_after", "format": "date_time" },
+          { "field": "syscheck.mtime_before", "format": "date_time" },
+          { "field": "timestamp", "format": "date_time" }
+        ],
+        "_source": { "excludes": ["@timestamp"] },
+        "query": {
+          "bool": {
+            "must": [],
+            "filter": [
+              { "match_all": {} },
+              { "match_phrase": { "manager.name": { "query": "soc" } } },
+              { "exists": { "field": "rule.mitre.id" } }
+            ],
+            "should": [],
+            "must_not": []
+          }
+        }
+      }
+    },
+    "preference": 1728548036662
+  }
+}
