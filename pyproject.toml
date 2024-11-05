@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "mitre-reporter"
+version = "0.1.1"
+description = "Automatically creates the daily MITRE ATT&CK report for the last 24 hours or any specified duration based on a template used for MSU SOC purposes."
+authors = ["0xLighted"]
+readme = "README.md"
+packages = [
+    { include = "reporter" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+typer = "^0.12.5"
+pandas = "^2.2.3"
+requests = "^2.32.3"
+groq = "^0.11.0"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -15,8 +15,8 @@ In the HTML template <!-- --> are meant as notes for the you to better fill the 
 Please take your time before responding and proof-read the entire report to ensure its correctness. The following is the HTML template for you to follow.
 
 <head> <style> * { font-family: Arial, sans-serif; line-height: 1.5; } </style> </head>
-<!-- Each alert provided in the JSON data follows the structure below. Replace each instance of [1], [2], etc., with the alert number to keep summaries organized and sequential. You will be provided with 1 or more data in the provided JSON, you should use all alerts in the JSON. -->
-<p><strong>[1]. [PATH:rule.description]</strong></p>
+<!-- Each alert provided in the JSON data follows the structure below. Replace each instance of [id], with the id value at the start of the prompt to keep report organized and sequential. You will be provided with 1 or more data in the provided JSON, you should use all alerts in the JSON. -->
+<p><strong>[id]. [PATH:rule.description]</strong></p>
 <p><br /><strong>I. Alert Description:</strong></p>
 <ul>
   <li>
@@ -109,7 +109,7 @@ Please take your time before responding and proof-read the entire report to ensu
 </p>
 <ul>
   <li>
-    <strong>[remediation measure]: </strong>[Brief description of action or change required] <!-- Highlight significant remediation steps as appropriate -->
+    <strong>[remediation measure]: </strong>[Brief description of action or change required] <!-- Highlight significant remediation steps with yellow as appropriate -->
   </li>
 </ul>
 <p><strong>VI. Compliance Alignment:</strong></p>
@@ -120,11 +120,57 @@ Please take your time before responding and proof-read the entire report to ensu
     - Example: If the JSON data lists nist_800_53: AU.14, AC.7, translate it to NIST 800-53: Defines and enforces security controls.
     
     DO NOT add the compliance code in the description. only write the description in the description field.-->
-    <strong>[compliance organization]: </strong><span style="background-color: #ffff00">[Description of the compliance standard]</span> (<span style="background-color: #00ffff">[compliance code]</span>)
+    <strong>[compliance organization]: </strong><span style="background-color: #ffff00">[Description of the compliance standard]</span> (<span style="background-color: #00ffff">[compliance code]</span>) <!-- Surround the compliance code in brackets and highlight in blue-->
   </li>
 </ul>
 <p>
   <strong>VII. Further Steps:</strong> <!-- Suggest a minimum of 3 next steps to strengthen response -->
+</p>
+<ul>
+  <li>
+    <strong>[step]:</strong> [Brief explanation of action or monitoring] <!-- Highlight particularly relevant next steps -->
+  </li>
+</ul>
+
+<span>----------</span> <!-- Divider for the next section, the next section is the summary of the previous section. You should fillout the next section as you filled out the previous -->
+
+<p><strong>[id]. [PATH:rule.description]</strong></p>
+<p><strong>I. Alert Details:</strong></p>
+<ul>
+  <li><strong>Location:</strong> [PATH:location]</li>
+  <li><strong>Decoder:</strong> [PATH:decoder.name]</li>
+  <li>
+    <strong>Agent Information:</strong>
+    <ul>
+        <li><strong>IP:</strong> <span style="background-color: #ffff00">[PATH:agent.ip]</span></li>
+        <li><strong>Name:</strong> <span style="background-color: #ffff00">[PATH:agent.name]</span></li>
+        <li><strong>ID:</strong> <span style="background-color: #ffff00">[PATH:agent.id]</span></li>
+    </ul>
+  </li>
+  <li>
+    <strong>Ticket ID: </strong><span style="background-color: #ffff00">_____</span> <!-- Placeholder to manually assign a Ticket ID if needed -->
+  </li>
+</ul>
+
+<!-- The following sections provide insights on the findings, impact, remediation measures, compliance details, and further steps. Ensure each section is thoroughly filled based on the JSON data provided. Highlight critical and important details as indicated. -->
+
+<p><strong>II. Significant Findings and Impact:</strong></p>
+<ul>
+  <li><strong>Event Description:</strong> [One paragraph summarizing the entire event with high detail] </li>
+  <li>
+    <strong>Impact:</strong> [One paragraph summarizing the impact of the event with high detail] <!-- Provide a detailed impact assessment with highlighted key risks or implications -->
+  </li>
+</ul>
+<p>
+  <strong>III. Remediation Measures: </strong> <!-- List at least 3 remediation steps in a key-value format -->
+</p>
+<ul>
+  <li>
+    <strong>[remediation measure]: </strong>[Brief description of action or change required] <!-- Highlight significant remediation steps with yellow as appropriate -->
+  </li>
+</ul>
+<p>
+  <strong>IV. Further Steps:</strong> <!-- Suggest a minimum of 3 next steps to strengthen response -->
 </p>
 <ul>
   <li>

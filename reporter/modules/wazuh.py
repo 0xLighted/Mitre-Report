@@ -2,8 +2,6 @@ import pandas as pd
 from requests import post
 from os import getenv
 from datetime import datetime, timedelta, timezone
-from dotenv import load_dotenv
-load_dotenv()
 
 HEADERS = {'osd-xsrf': 'osd-fetch'}
 
@@ -12,7 +10,7 @@ class Wazuh():
         self.conf = conf
 
         self.now = datetime.now(timezone.utc)
-        self.yesterday = self.now - timedelta(days=1)
+        self.yesterday = self.now - timedelta(hours=24)
         self.range = [
             self.now.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3],
             self.yesterday.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]
@@ -23,7 +21,7 @@ class Wazuh():
 
     def __login(self):
         """Login to Wazuh with login details in config file"""
-        _usr, _pwd = getenv('usr'), getenv('pwd')
+        _usr, _pwd = getenv('username'), getenv('password')
         with post("https://soc.msu.edu.my/auth/login", headers=HEADERS, data={"username": _usr, "password": _pwd}) as raw_auth:
             if raw_auth.cookies: return dict(raw_auth.cookies)
 
@@ -74,21 +72,44 @@ class Wazuh():
         df = pd.DataFrame(data, columns=headers)
         return df
 
-
-    def get_data(self) -> pd.DataFrame:
+# NOTE: Implement min_level and max_lev. might remove max level but doesnt hurt to keep anyways
+    def get_data(self, duration=24) -> pd.DataFrame:
         """Returns Wazuh data as a Pandas DataFrame for further processing.\n
         output: str | File to read if load_new_data is false, File to write to if load_new_data is true. Dont include extention or directory"""
 
+        self.payload['params']['body']['query']['bool']['filter'][-1]['range']['timestamp']['gte'] = (self.now - timedelta(hours=duration)).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
         with post("https://soc.msu.edu.my/internal/search/opensearch", cookies=self.auth_token, headers=HEADERS, json=self.payload) as raw_data:
             data = raw_data.json()
 
-        return self.__clean_data(data)
+        hits = data['rawResponse']['hits']['hits']
+        filtered = self.__clean_data(data)
+
+        # Get first index of all unique rules 
+        indexes = {value: filtered[filtered['rule_id'] == value].first_valid_index() for value in filtered['rule_id'].unique()}
+        data = {k: hits[indexes[k]]['_source'] for k in indexes} # Get the hit data of corresponding unique index
+        
+        # Group relevant data by the rule into an array 
+        grouped_data = filtered.groupby('rule_id').agg({
+            'agent_ip': lambda x: list(x.unique()),
+            'agent_name': lambda x: list(x.unique()),
+            'agent_id': lambda x: list(x.unique()),
+            'url_affected': lambda x: list(x.unique()),
+            'source_ip': lambda x: list(x.unique()),
+            'full_log': lambda x: {agent: log for agent, log in zip(filtered.loc[x.index, 'agent_name'], x)},
+            'syscheck_path': lambda x: {agent: path for agent, path in zip(filtered.loc[x.index, 'agent_name'], x)},
+            'geo_country': lambda x: list(x.unique()),
+            'geo_lon': lambda x: list(x.unique()),
+            'geo_lat': lambda x: list(x.unique())  
+        })
+
+        return grouped_data
 
 
-    def get_json(self) -> list:
+    def get_json(self, duration=24) -> dict:
         """Returns a list of hits for each unique event. Probably only for AI processing. \n
         output: str | File to read if load_new_data is false, File to write to if load_new_data is true. Dont include extention or directory"""
 
+        self.payload['params']['body']['query']['bool']['filter'][-1]['range']['timestamp']['gte'] = (self.now - timedelta(hours=duration)).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
         with post("https://soc.msu.edu.my/internal/search/opensearch", cookies=self.auth_token, headers=HEADERS, json=self.payload) as raw_data:
             data = raw_data.json()
 
@@ -135,7 +156,7 @@ class Wazuh():
                 data[h]['GeoLocation']['location']['lat'] = grouped_data.loc[h]['geo_lat']
 
             # Delete unecessary data
-            del data[h]['predecoder']
+            # del data[h]['predecoder']
             del data[h]['input']
             del data[h]['manager']
             del data[h]['id']

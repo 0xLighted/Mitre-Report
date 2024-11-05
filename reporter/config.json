@@ -1,13 +1,6 @@
 {
   "filters": [
-    {
-      "range": {
-        "rule.level": {
-          "gte": 3,
-          "lt": null
-        }
-      }
-    },
+    { "range": { "rule.level": { "gte": 0, "lt": null } } },
     {
       "bool": {
         "minimum_should_match": 1,
@@ -36,7 +29,7 @@
         "sort": [
           { "timestamp": { "order": "desc", "unmapped_type": "boolean" } }
         ],
-        "size": 10000, 
+        "size": 10000,
         "from": 0,
         "stored_fields": ["*"],
         "script_fields": {},
