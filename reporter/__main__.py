@@ -68,9 +68,9 @@ def set_env(username: Annotated[str, Argument(help="Wazuh username to access dat
         password: Annotated[str, Argument(help="Wazuh password to access data")],
         groq_key: Annotated[str, Argument(help="Groq API key for report generation")]):
     """Sets environment variables for login details and API key"""
-    set_key('.env', 'username', username)
-    set_key('.env', 'password', password)
-    set_key('.env', 'groq_key', groq_key)
+    set_key('.env', '_username', username)
+    set_key('.env', '_password', password)
+    set_key('.env', '_groq_key', groq_key)
 
     print("Successfully set environment variables")
 

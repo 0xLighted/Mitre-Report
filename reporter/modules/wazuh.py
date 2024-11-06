@@ -21,7 +21,7 @@ class Wazuh():
 
     def __login(self):
         """Login to Wazuh with login details in config file"""
-        _usr, _pwd = getenv('username'), getenv('password')
+        _usr, _pwd = getenv('_username'), getenv('_password')
         with post("https://soc.msu.edu.my/auth/login", headers=HEADERS, data={"username": _usr, "password": _pwd}) as raw_auth:
             if raw_auth.cookies: return dict(raw_auth.cookies)
 
