@@ -85,6 +85,8 @@ def set_agents(agents: Annotated[list[str], Argument(help="List of agents to fil
     with open('reporter/config.json', 'w') as raw_conf:
         dump(conf, raw_conf)
 
+    print("Updated filter with agents")
+
 
 @app.callback(invoke_without_command=True)
 def main(ctx: Context):
