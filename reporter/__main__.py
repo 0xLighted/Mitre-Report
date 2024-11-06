@@ -30,7 +30,7 @@ app = Typer()
 @app.command()
 def check(min_level: Annotated[int, Argument(help="The minimum rule level to check for alerts.")],
           duration: Annotated[int, Argument(help="The duration in hours to check from till current time (default: 24 hours).")] = 24):
-    """Display all data available from a range. Mainly used to check data validity before producing report."""
+    """Display all data available with a minimum rule level. Mainly used to check data validity before producing report."""
     conf['filters'][0]['range']['rule.level']['gte'] = min_level
 
     client = Wazuh(conf)
@@ -77,9 +77,9 @@ def set_env(username: Annotated[str, Argument(help="Wazuh username to access dat
 
 @app.command()
 def set_agents(agents: Annotated[list[str], Argument(help="List of agents to filter by")]):
-    """Sets environment variables for login details and API key"""
-    
-    conf['filters'][1]['bool']['should'] = [{ "match_phrase": { "agent.id": i } } for i in agents]
+    """Sets agents for report to filter by, enter - to remove agents filter"""
+
+    conf['filters'][1]['bool']['should'] = [] if agents[0] == '-' else [{ "match_phrase": { "agent.id": i } } for i in agents]
 
     if not path.exists('reporter/config.json'): raise Exception('Config file doesnt exist.')
     with open('reporter/config.json', 'w') as raw_conf:
