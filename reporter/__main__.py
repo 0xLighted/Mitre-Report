@@ -57,7 +57,7 @@ def generate(min_level: Annotated[int, Argument(help="The minimum rule level to 
         return
     
     # Generate the report with not empty data
-    res = report(getenv('groq_key'))
+    res = report(getenv('_groq_key'))
     print('[-] Generating report')
     res.generate(json)
     print('[-] Report completed.')
