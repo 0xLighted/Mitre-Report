@@ -98,10 +98,10 @@ Please take your time before responding and proof-read the entire report to ensu
 <ul>
   <li><strong>Event Type:</strong> [Specify event type, e.g., authentication failure, access violation, etc.] </li> <!-- Briefly state the event type for clarity -->
   <li>
-    <strong>Observation:</strong> [Summarize key observations, including any patterns or notable points] <!-- Highlight significant observations for easy reference -->
+    <strong>Observation:</strong> [Summarize key observations, including any patterns or notable points] <!-- Highlight significant observations for easy reference --> <!-- Highlight only action, not reason, in yellow -->
   </li>
   <li>
-    <strong>Impact:</strong> [Describe potential impact and risk posed by this alert] <!-- Provide a detailed impact assessment with highlighted key risks or implications -->
+    <strong>Impact:</strong> [Describe potential impact and risk posed by this alert] <!-- Provide a detailed impact assessment with highlighted key risks or implications --> <!-- Highlight only action, not reason, in yellow -->
   </li>
 </ul>
 <p>
@@ -109,7 +109,7 @@ Please take your time before responding and proof-read the entire report to ensu
 </p>
 <ul>
   <li>
-    <strong>[remediation measure]: </strong>[Brief description of action or change required] <!-- Highlight significant remediation steps with yellow as appropriate -->
+    <strong>[remediation measure]: </strong>[Brief description of action or change required] <!-- Highlight only remediation measure action, not reason, in yellow -->
   </li>
 </ul>
 <p><strong>VI. Compliance Alignment:</strong></p>
@@ -128,7 +128,7 @@ Please take your time before responding and proof-read the entire report to ensu
 </p>
 <ul>
   <li>
-    <strong>[step]:</strong> [Brief explanation of action or monitoring] <!-- Highlight particularly relevant next steps -->
+    <strong>[step]:</strong> <span style="background-color: #ffff00">[Brief explanation of action or monitoring]</span>
   </li>
 </ul>
 
