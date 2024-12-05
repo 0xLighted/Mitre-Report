@@ -4,7 +4,7 @@ Start-Process cmd -ArgumentList "/k", "poetry shell"
 # Get docx file path
 $downloads = [Environment]::GetFolderPath("MyDocuments").Replace("Documents", "Downloads")
 $date = Get-Date -Format "ddMMyyyy"
-$filePath = "$downloads\MITRE ATT Report $date - faisal.docx"
+$filePath = "$downloads\MITRE ATT Report $date - yourname.docx"
 
 # Create file if it doesnt exist
 if (-not (Test-Path -Path $filePath)) {
