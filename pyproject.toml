@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mitre-reporter"
-version = "0.1.1"
+version = "0.1.2"
 description = "Automatically creates the daily MITRE ATT&CK report for the last 24 hours or any specified duration based on a template used for MSU SOC purposes."
 authors = ["0xLighted"]
 readme = "README.md"
