@@ -23,7 +23,7 @@ from json import loads, dump
 from dotenv import load_dotenv, set_key
 load_dotenv()
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __description__ = 'Automatically creates the daily MITRE ATT&CK report for the last 24 hours or any specified duration based on a template used for MSU SOC purposes.'
 
 logo = r"""
