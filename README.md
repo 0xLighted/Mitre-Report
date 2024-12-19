@@ -51,7 +51,8 @@ This command saves your credentials and API key, allowing the tool to collect da
 
 ## Usage
 
-The tool has four primary commands: `check`, `generate`, `set-env`, and `set-agents`. Below are details and usage examples for each command.
+Run the Reporter.ps1 script in powershell to automatically open the poetry shell after the installation process has been completed.
+The primary commands are: `check`, `generate`. Below are details and usage examples for each command.
 
 ### check
 
